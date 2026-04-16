@@ -12,7 +12,6 @@
         :root {
             --orange: #E8751A;
             --orange-dark: #C75F0E;
-            --brown: #3E2723;
             --dark: #111;
             --darker: #0a0a0a;
             --card: #1a1a1a;
@@ -22,7 +21,6 @@
 
         html { scroll-behavior: smooth; }
         body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--darker); }
-
         h1, h2, h3 { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
 
         /* ---- NAV ---- */
@@ -30,15 +28,23 @@
             position: fixed; top: 0; width: 100%; z-index: 100;
             display: flex; justify-content: space-between; align-items: center;
             padding: 1rem 2rem;
-            background: rgba(10,10,10,.92); backdrop-filter: blur(10px);
+            background: rgba(10,10,10,.95);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255,255,255,.06);
         }
         nav .logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--orange); }
         nav .logo span { color: #fff; }
-        nav ul { list-style: none; display: flex; gap: 1.5rem; }
+        nav ul { list-style: none; display: flex; gap: 1.5rem; align-items: center; }
         nav a { color: #ccc; text-decoration: none; font-size: .9rem; font-weight: 500; transition: color .2s; }
         nav a:hover { color: var(--orange); }
-
+        .cart-btn { position: relative; color: #ccc; font-size: 1.3rem; cursor: pointer; transition: color .2s; }
+        .cart-btn:hover { color: var(--orange); }
+        .cart-count {
+            position: absolute; top: -8px; right: -10px;
+            background: var(--orange); color: #fff; font-size: .65rem;
+            width: 18px; height: 18px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-weight: 700;
+        }
         .menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: .5rem; }
         .menu-toggle span { display: block; width: 24px; height: 2px; background: #fff; margin: 5px 0; transition: .3s; border-radius: 2px; }
 
@@ -54,26 +60,40 @@
         .hero h1 { font-size: clamp(3rem, 8vw, 5.5rem); line-height: 1; margin-bottom: .5rem; }
         .hero h1 span { color: var(--orange); }
         .hero .tagline { font-size: clamp(1rem, 2.5vw, 1.3rem); color: #ccc; margin-bottom: 2rem; max-width: 520px; }
+
+        /* ---- BUTTONS ---- */
         .btn {
-            display: inline-flex; align-items: center; gap: .5rem;
+            display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
             padding: .9rem 2rem; border-radius: 50px; text-decoration: none;
             font-weight: 700; font-size: 1rem; transition: transform .2s, box-shadow .2s, background .2s;
-            border: none; cursor: pointer;
+            border: none; cursor: pointer; font-family: inherit;
         }
         .btn-primary { background: var(--orange); color: #fff; }
         .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(232,117,26,.4); background: var(--orange-dark); }
+        .btn-outline { background: transparent; color: #fff; border: 2px solid #fff; }
+        .btn-outline:hover { background: #fff; color: var(--dark); }
         .btn-whatsapp { background: #25D366; color: #fff; }
         .btn-whatsapp:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(37,211,102,.35); }
+        .btn-add {
+            background: var(--orange); color: #fff; padding: .4rem .9rem;
+            border-radius: 50px; border: none; cursor: pointer;
+            font-weight: 600; font-size: .85rem; transition: background .2s; font-family: inherit;
+        }
+        .btn-add:hover { background: var(--orange-dark); }
+        .btn-ghost {
+            padding: .9rem; border: 1px solid #555; border-radius: 50px;
+            background: transparent; color: #fff; font-weight: 700; font-size: .95rem;
+            cursor: pointer; transition: border-color .2s, background .2s; font-family: inherit;
+        }
+        .btn-ghost:hover { border-color: var(--orange); background: rgba(232,117,26,.05); }
 
         /* ---- SECTIONS ---- */
         section { padding: 5rem 2rem; }
-        .section-title {
-            text-align: center; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: .25rem;
-        }
+        .section-title { text-align: center; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: .25rem; }
         .section-title span { color: var(--orange); }
         .section-sub { text-align: center; color: var(--muted); margin-bottom: 3rem; font-size: .95rem; }
 
-        /* ---- MENU ---- */
+        /* ---- MENU GRID (Hamburgueres) ---- */
         #cardapio { background: var(--dark); }
         .menu-grid {
             display: grid;
@@ -87,96 +107,190 @@
             transition: transform .25s, border-color .25s;
         }
         .menu-card:hover { transform: translateY(-4px); border-color: var(--orange); }
-        .menu-card .num {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 2rem; color: var(--orange); line-height: 1; min-width: 36px;
-        }
+        .menu-card .num { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--orange); line-height: 1; min-width: 36px; }
         .menu-card h3 { font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: .3rem; }
         .menu-card .desc { color: var(--muted); font-size: .85rem; line-height: 1.5; margin-bottom: .5rem; }
         .menu-card .price { color: var(--orange); font-weight: 700; font-size: 1.1rem; }
+        .menu-card .bottom { display: flex; align-items: center; justify-content: space-between; margin-top: .5rem; }
 
         /* ---- NOVIDADES ---- */
         #novidades { background: var(--darker); }
         .new-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem; max-width: 1100px; margin: 0 auto;
         }
         .new-card {
             background: var(--card); border-radius: 14px; overflow: hidden;
-            border: 1px solid rgba(255,255,255,.05);
-            transition: transform .25s, box-shadow .25s;
+            border: 1px solid rgba(255,255,255,.05); transition: transform .25s, box-shadow .25s;
         }
         .new-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,.4); }
-        .new-card img { width: 100%; height: 200px; object-fit: cover; }
-        .new-card .badge {
-            display: inline-block; padding: .25rem .75rem;
-            background: var(--orange); color: #fff; font-size: .7rem;
-            font-weight: 700; text-transform: uppercase; border-radius: 50px;
+        .new-card img { width: 100%; height: 200px; object-fit: cover; display: block; }
+        .new-card .badge-new {
+            display: inline-block; padding: .25rem .75rem; background: var(--orange); color: #fff;
+            font-size: .7rem; font-weight: 700; text-transform: uppercase; border-radius: 50px;
             margin: 1rem 1rem .5rem; letter-spacing: .5px;
         }
         .new-card h3 { font-family: 'Inter', sans-serif; font-size: 1.15rem; font-weight: 700; padding: 0 1rem; margin-bottom: .3rem; }
         .new-card .desc { color: var(--muted); font-size: .85rem; padding: 0 1rem; margin-bottom: .5rem; line-height: 1.5; }
-        .new-card .price { color: var(--orange); font-weight: 700; font-size: 1.2rem; padding: 0 1rem 1.2rem; }
+        .new-card .bottom-row { display: flex; align-items: center; justify-content: space-between; padding: 0 1rem 1.2rem; }
+        .new-card .price { color: var(--orange); font-weight: 700; font-size: 1.2rem; }
 
         /* ---- PASTEIS ---- */
         #pasteis { background: var(--dark); }
         .pasteis-wrapper { max-width: 700px; margin: 0 auto; }
-        .pasteis-header {
-            text-align: center; font-size: 1.1rem; color: var(--orange);
-            font-weight: 700; margin-bottom: 2rem;
-        }
-        .pasteis-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
+        .pasteis-header { text-align: center; font-size: 1.1rem; color: var(--orange); font-weight: 700; margin-bottom: 2rem; }
+        .pasteis-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
         .pastel-item {
             background: var(--card); border-radius: 10px; padding: 1rem 1.2rem;
-            display: flex; align-items: center; gap: .75rem;
-            border: 1px solid rgba(255,255,255,.05);
-            transition: border-color .2s, transform .2s;
+            display: flex; align-items: center; justify-content: space-between;
+            border: 1px solid rgba(255,255,255,.05); transition: border-color .2s, transform .2s;
         }
         .pastel-item:hover { border-color: var(--orange); transform: translateX(4px); }
-        .pastel-item .dot {
-            width: 8px; height: 8px; border-radius: 50%;
-            background: var(--orange); flex-shrink: 0;
-        }
+        .pastel-item .left { display: flex; align-items: center; gap: .75rem; }
+        .pastel-item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
         .pastel-item span { font-weight: 500; font-size: .95rem; }
+        .pastel-item .price-tag { color: var(--orange); font-weight: 700; font-size: .9rem; margin-right: .75rem; }
 
-        /* ---- CONTACT ---- */
+        /* ---- CONTATO ---- */
         #contato { background: var(--darker); text-align: center; }
         .contact-wrapper { max-width: 500px; margin: 0 auto; }
         .contact-wrapper h2 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: .5rem; }
         .contact-wrapper h2 span { color: var(--orange); }
         .contact-wrapper .phone { color: var(--muted); font-size: 1.1rem; margin-bottom: 2rem; }
-        .contact-wrapper .whatsapp-big {
+        .whatsapp-big {
             display: inline-flex; align-items: center; gap: .75rem;
             background: #25D366; color: #fff; padding: 1rem 2.5rem;
             border-radius: 60px; font-size: 1.2rem; font-weight: 700;
             text-decoration: none; transition: transform .2s, box-shadow .2s;
         }
-        .contact-wrapper .whatsapp-big:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 12px 35px rgba(37,211,102,.35);
+        .whatsapp-big:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 35px rgba(37,211,102,.35); }
+        .whatsapp-big svg { width: 28px; height: 28px; fill: #fff; }
+        .ifood-btn {
+            display: inline-flex; align-items: center; gap: .75rem;
+            background: #ff0013; color: #fff; padding: 1rem 2.5rem;
+            border-radius: 60px; font-size: 1.2rem; font-weight: 700;
+            text-decoration: none; transition: transform .2s, box-shadow .2s;
         }
-        .contact-wrapper .whatsapp-big svg { width: 28px; height: 28px; fill: #fff; }
+        .ifood-btn:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 35px rgba(255,0,19,.35); }
+        .ifood-btn svg { width: 28px; height: 28px; fill: #fff; }
 
         /* ---- FOOTER ---- */
-        footer {
-            text-align: center; padding: 2rem;
-            background: #050505; color: #555; font-size: .85rem;
-            border-top: 1px solid rgba(255,255,255,.04);
-        }
+        footer { text-align: center; padding: 2rem; background: #050505; color: #555; font-size: .85rem; border-top: 1px solid rgba(255,255,255,.04); }
         footer span { color: var(--orange); font-family: 'Bebas Neue', sans-serif; font-size: 1rem; }
+
+        /* ---- CART MODAL ---- */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 200;
+            display: none; justify-content: flex-end;
+        }
+        .modal-overlay.open { display: flex; }
+        .cart-panel {
+            width: 100%; max-width: 440px; background: var(--card); height: 100vh;
+            padding: 2rem; overflow-y: auto; border-left: 1px solid rgba(255,255,255,.06);
+        }
+        .cart-panel h2 { color: var(--orange); margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
+        .cart-panel .close-btn { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; line-height: 1; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: .75rem 0; border-bottom: 1px solid rgba(255,255,255,.04); }
+        .cart-item .name { font-weight: 600; }
+        .cart-item .price { color: var(--orange); font-size: .9rem; }
+        .cart-item .qty-ctrl { display: flex; align-items: center; gap: .5rem; }
+        .cart-item .qty-ctrl button {
+            width: 28px; height: 28px; border-radius: 50%; border: 1px solid #555;
+            background: transparent; color: #fff; cursor: pointer; font-size: 1rem;
+            display: flex; align-items: center; justify-content: center; transition: all .2s;
+        }
+        .cart-item .qty-ctrl button:hover { border-color: var(--orange); color: var(--orange); }
+        .cart-total { font-size: 1.2rem; font-weight: 700; text-align: right; margin: 1rem 0; color: var(--orange); }
+        .empty-cart { color: var(--muted); text-align: center; padding: 3rem 0; }
+
+        /* ---- CHECKOUT FORM ---- */
+        .checkout-form { display: flex; flex-direction: column; gap: .75rem; }
+        .checkout-form input, .checkout-form textarea {
+            padding: .75rem 1rem; border: 1px solid #333; border-radius: 8px;
+            background: #111; color: #fff; font-family: inherit; font-size: .95rem;
+        }
+        .checkout-form input:focus, .checkout-form textarea:focus {
+            outline: none; border-color: var(--orange);
+        }
+        .checkout-form textarea { resize: vertical; min-height: 60px; }
+        .checkout-form button[type="submit"] {
+            padding: .9rem; border: none; border-radius: 50px;
+            background: var(--orange); color: #fff; font-weight: 700;
+            font-size: 1rem; cursor: pointer; transition: background .2s; font-family: inherit;
+        }
+        .checkout-form button[type="submit"]:hover { background: var(--orange-dark); }
+
+        /* ---- CHECKOUT STEPS ---- */
+        .checkout-step { display: none; }
+        .checkout-step.active { display: block; }
+        .step-indicators { display: flex; gap: .5rem; margin-bottom: 1.5rem; }
+        .step-dot {
+            width: 32px; height: 4px; border-radius: 4px; background: #333; transition: background .3s;
+        }
+        .step-dot.active { background: var(--orange); }
+        .step-dot.done { background: #27ae60; }
+
+        /* ---- PAYMENT OPTIONS ---- */
+        .payment-options { display: flex; flex-direction: column; gap: .75rem; margin-bottom: 1rem; }
+        .payment-option {
+            display: flex; align-items: center; gap: 1rem; padding: 1rem;
+            border: 2px solid #333; border-radius: 10px; cursor: pointer;
+            transition: border-color .2s, background .2s;
+        }
+        .payment-option:hover { border-color: #555; }
+        .payment-option.selected { border-color: var(--orange); background: rgba(232,117,26,.08); }
+        .payment-option input[type="radio"] { display: none; }
+        .payment-option .radio-dot {
+            width: 20px; height: 20px; border-radius: 50%; border: 2px solid #555;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            transition: border-color .2s;
+        }
+        .payment-option.selected .radio-dot { border-color: var(--orange); }
+        .payment-option.selected .radio-dot::after {
+            content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--orange);
+        }
+        .payment-option .pay-icon { font-size: 1.5rem; }
+        .payment-option .pay-info h4 { font-family: 'Inter', sans-serif; font-size: .95rem; font-weight: 600; }
+        .payment-option .pay-info p { font-size: .8rem; color: var(--muted); }
+
+        /* ---- PAYMENT DETAILS ---- */
+        .pay-detail-box {
+            background: #111; border: 1px solid #333; border-radius: 10px;
+            padding: 1.5rem; text-align: center; margin: 1rem 0;
+        }
+        .pay-detail-box .icon { font-size: 2.5rem; margin-bottom: .5rem; }
+        .pay-detail-box p { color: var(--muted); font-size: .85rem; }
+        .copy-btn {
+            padding: .5rem 1.2rem; border: 1px solid var(--orange); border-radius: 50px;
+            background: transparent; color: var(--orange); cursor: pointer; font-size: .85rem;
+            transition: background .2s, color .2s; font-family: inherit; margin-top: .5rem;
+        }
+        .copy-btn:hover { background: var(--orange); color: #fff; }
+        .card-fields { display: flex; flex-direction: column; gap: .75rem; margin: 1rem 0; }
+        .card-fields input {
+            padding: .75rem 1rem; border: 1px solid #333; border-radius: 8px;
+            background: #111; color: #fff; font-family: inherit; font-size: .95rem;
+        }
+        .card-fields input:focus { outline: none; border-color: var(--orange); }
+        .card-fields .row { display: flex; gap: .75rem; }
+        .card-fields .row input { flex: 1; }
+
+        /* ---- SUCCESS / FAILED ---- */
+        .result-box { text-align: center; padding: 2rem 0; }
+        .result-box .icon { font-size: 4rem; margin-bottom: 1rem; }
+        .result-box h3 { font-family: 'Inter', sans-serif; font-size: 1.3rem; margin-bottom: .5rem; }
+        .result-box p { color: var(--muted); font-size: .9rem; margin-bottom: .3rem; }
+
+        /* ---- ANIMATIONS ---- */
+        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity .6s ease, transform .6s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
 
         /* ---- RESPONSIVE ---- */
         @media (max-width: 768px) {
             nav ul {
                 position: fixed; top: 0; right: -100%; width: 70%; height: 100vh;
                 flex-direction: column; justify-content: center; align-items: center;
-                background: var(--darker); transition: right .35s ease;
-                gap: 2rem;
+                background: var(--darker); transition: right .35s ease; gap: 2rem;
             }
             nav ul.active { right: 0; }
             nav a { font-size: 1.1rem; }
@@ -184,17 +298,10 @@
             .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
             .menu-toggle.open span:nth-child(2) { opacity: 0; }
             .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-            .menu-grid { grid-template-columns: 1fr; }
-            .new-grid { grid-template-columns: 1fr; }
+            .menu-grid, .new-grid { grid-template-columns: 1fr; }
             .pasteis-grid { grid-template-columns: 1fr 1fr; }
         }
-        @media (max-width: 480px) {
-            .pasteis-grid { grid-template-columns: 1fr; }
-        }
-
-        /* ---- ANIMATIONS ---- */
-        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity .6s ease, transform .6s ease; }
-        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        @media (max-width: 480px) { .pasteis-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -202,127 +309,68 @@
 <!-- NAV -->
 <nav>
     <div class="logo">BURGUER <span>DA VILA</span></div>
+    <ul id="navMenu">
+        <li><a href="#inicio" onclick="closeMenu()">Início</a></li>
+        <li><a href="#cardapio" onclick="closeMenu()">Cardápio</a></li>
+        <li><a href="#novidades" onclick="closeMenu()">Novidades</a></li>
+        <li><a href="#contato" onclick="closeMenu()">Contato</a></li>
+        <li>
+            <span class="cart-btn" onclick="openCart()">
+                &#128722;
+                <span class="cart-count" id="cartCount">0</span>
+            </span>
+        </li>
+    </ul>
     <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">
         <span></span><span></span><span></span>
     </button>
-    <ul id="navMenu">
-        <li><a href="#inicio" onclick="closeMenu()">In&iacute;cio</a></li>
-        <li><a href="#cardapio" onclick="closeMenu()">Card&aacute;pio</a></li>
-        <li><a href="#novidades" onclick="closeMenu()">Novidades</a></li>
-        <li><a href="#contato" onclick="closeMenu()">Contato</a></li>
-    </ul>
 </nav>
 
 <!-- HERO -->
 <section class="hero" id="inicio">
     <h1>BURGUER <span>DA VILA</span></h1>
-    <p class="tagline">O melhor hamb&uacute;rguer artesanal da regi&atilde;o!</p>
-    <a href="#cardapio" class="btn btn-primary">Ver Card&aacute;pio</a>
+    <p class="tagline">O melhor hambúrguer artesanal da região!</p>
+    <a href="#cardapio" class="btn btn-primary">Ver Cardápio</a>
 </section>
 
-<!-- CARD&Aacute;PIO -->
+<!-- CARDAPIO -->
 <section id="cardapio">
-    <h2 class="section-title">CARD<span>&Aacute;</span>PIO</h2>
-    <p class="section-sub">Hamb&uacute;rgueres artesanais feitos na hora</p>
-    <div class="menu-grid">
-        <div class="menu-card fade-in">
-            <div class="num">01</div>
-            <div>
-                <h3>X-Tudo</h3>
-                <p class="desc">Hamb&uacute;rguer artesanal, mussarela, alface, tomate, bacon, ovo, calabresa e presunto.</p>
-                <span class="price">R$ 20</span>
-            </div>
-        </div>
-        <div class="menu-card fade-in">
-            <div class="num">02</div>
-            <div>
-                <h3>X-Bacon</h3>
-                <p class="desc">Alface, tomate, hamb&uacute;rguer artesanal, bacon crocante e mussarela.</p>
-                <span class="price">R$ 17</span>
-            </div>
-        </div>
-        <div class="menu-card fade-in">
-            <div class="num">03</div>
-            <div>
-                <h3>X-Egg</h3>
-                <p class="desc">Hamb&uacute;rguer artesanal, ovo mal passado, bacon crocante e mussarela.</p>
-                <span class="price">R$ 17</span>
-            </div>
-        </div>
-        <div class="menu-card fade-in">
-            <div class="num">04</div>
-            <div>
-                <h3>X-Salada</h3>
-                <p class="desc">Alface, tomate, hamb&uacute;rguer artesanal e maionese especial.</p>
-                <span class="price">R$ 15</span>
-            </div>
-        </div>
-        <div class="menu-card fade-in">
-            <div class="num">05</div>
-            <div>
-                <h3>X-Burguer</h3>
-                <p class="desc">Hamb&uacute;rguer artesanal, mussarela e maionese especial.</p>
-                <span class="price">R$ 12</span>
-            </div>
-        </div>
-    </div>
+    <h2 class="section-title">CARDA<span>PIO</span></h2>
+    <p class="section-sub">Hambúrgueres artesanais feitos na hora</p>
+    <div class="menu-grid" id="hamburgueresGrid"></div>
 </section>
 
 <!-- NOVIDADES -->
 <section id="novidades">
-    <h2 class="section-title">NOVI<span>DA</span>DES</h2>
-    <p class="section-sub">Acabaram de chegar no nosso card&aacute;pio</p>
-    <div class="new-grid">
-        <div class="new-card fade-in">
-            <img src="https://images.unsplash.com/photo-1553979459-d2207cc93730?w=600&q=80" alt="Duplo Cheddar Bacon">
-            <span class="badge">Novidade</span>
-            <h3>Duplo Cheddar Bacon</h3>
-            <p class="desc">2 hamb&uacute;rgueres, bacon, mussarela, queijo prato, cheddar e maionese caseira.</p>
-            <span class="price">R$ 25</span>
-        </div>
-        <div class="new-card fade-in">
-            <img src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=600&q=80" alt="Catupiry Especial">
-            <span class="badge">Novidade</span>
-            <h3>Catupiry Especial</h3>
-            <p class="desc">Catupiry empanado, hamb&uacute;rguer caseiro, maionese caseira, mussarela e queijo prato.</p>
-            <span class="price">R$ 25</span>
-        </div>
-        <div class="new-card fade-in">
-            <img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=600&q=80" alt="Misto Quente">
-            <span class="badge">Novidade</span>
-            <h3>Misto Quente</h3>
-            <p class="desc">Presunto e mussarela.</p>
-            <span class="price">R$ 7</span>
-        </div>
-    </div>
+    <h2 class="section-title">NOVI<span>DADES</span></h2>
+    <p class="section-sub">Acabaram de chegar no nosso cardápio</p>
+    <div class="new-grid" id="novidadesGrid"></div>
 </section>
 
-<!-- PAST&Eacute;IS -->
+<!-- PASTEIS -->
 <section id="pasteis">
-    <h2 class="section-title">PAST<span>E</span>IS</h2>
+    <h2 class="section-title">PASTEIS</h2>
     <div class="pasteis-wrapper">
-        <p class="pasteis-header">Todos os past&eacute;is por apenas R$ 8,00 cada</p>
-        <div class="pasteis-grid">
-            <div class="pastel-item fade-in"><div class="dot"></div><span>Frango com Catupiry</span></div>
-            <div class="pastel-item fade-in"><div class="dot"></div><span>Pizza</span></div>
-            <div class="pastel-item fade-in"><div class="dot"></div><span>Carne</span></div>
-            <div class="pastel-item fade-in"><div class="dot"></div><span>Carne com Queijo</span></div>
-            <div class="pastel-item fade-in"><div class="dot"></div><span>Calabresa com Queijo</span></div>
-            <div class="pastel-item fade-in"><div class="dot"></div><span>Mussarela</span></div>
-            <div class="pastel-item fade-in"><div class="dot"></div><span>Bacon com Queijo</span></div>
-        </div>
+        <p class="pasteis-header">Todos os pastéis por apenas R$ 8,00 cada</p>
+        <div class="pasteis-grid" id="pasteisGrid"></div>
     </div>
 </section>
 
 <!-- CONTATO -->
 <section id="contato">
     <div class="contact-wrapper">
-        <h2>PE&Agrave;A J&Aacute; <span>O SEU!</span></h2>
+        <h2>PEÇA JÁ <span>O SEU!</span></h2>
         <p class="phone">WhatsApp: +55 11 97563-8583</p>
-        <a href="https://wa.me/5511975638583" target="_blank" class="whatsapp-big">
-            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16.004 0C7.165 0 .003 7.163.003 16c0 2.823.737 5.58 2.137 8.007L.014 32l8.186-2.1a15.93 15.93 0 0 0 7.804 1.986h.006C24.84 31.886 32 24.724 32 15.994 32 7.163 24.84 0 16.004 0zm0 29.3a13.35 13.35 0 0 1-6.986-1.97l-.5-.297-5.19 1.324 1.383-5.063-.327-.52A13.28 13.28 0 0 1 2.59 16c0-7.403 6.012-13.414 13.42-13.414C23.417 2.586 29.424 8.6 29.424 16c0 7.403-6.012 13.3-13.42 13.3zm7.35-10.013c-.402-.2-2.373-1.17-2.742-1.304-.369-.134-.637-.2-.905.2s-1.039 1.304-1.274 1.573c-.234.268-.469.301-.871.1-.402-.2-1.695-.625-3.23-1.993-1.194-1.066-2.001-2.387-2.236-2.789-.234-.402-.025-.619.176-.819.181-.18.402-.469.603-.704.2-.234.268-.402.402-.67.134-.268.067-.503-.033-.704-.1-.2-.905-2.18-1.24-2.985-.327-.784-.659-.677-.905-.69-.234-.01-.503-.013-.771-.013-.268 0-.704.1-1.072.503-.369.402-1.407 1.376-1.407 3.354s1.44 3.89 1.641 4.158c.2.268 2.834 4.33 6.872 6.07.96.414 1.71.661 2.295.847.964.307 1.84.263 2.533.16.772-.115 2.373-.972 2.708-1.91.335-.938.335-1.742.234-1.91-.1-.168-.369-.268-.771-.47z"/></svg>
-            Pedir pelo WhatsApp
-        </a>
+        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+            <a href="https://wa.me/5511975638583" target="_blank" class="whatsapp-big">
+                <svg viewBox="0 0 32 32"><path d="M16.004 0C7.165 0 .003 7.163.003 16c0 2.823.737 5.58 2.137 8.007L.014 32l8.186-2.1a15.93 15.93 0 0 0 7.804 1.986h.006C24.84 31.886 32 24.724 32 15.994 32 7.163 24.84 0 16.004 0zm0 29.3a13.35 13.35 0 0 1-6.986-1.97l-.5-.297-5.19 1.324 1.383-5.063-.327-.52A13.28 13.28 0 0 1 2.59 16c0-7.403 6.012-13.414 13.42-13.414C23.417 2.586 29.424 8.6 29.424 16c0 7.403-6.012 13.3-13.42 13.3zm7.35-10.013c-.402-.2-2.373-1.17-2.742-1.304-.369-.134-.637-.2-.905.2s-1.039 1.304-1.274 1.573c-.234.268-.469.301-.871.1-.402-.2-1.695-.625-3.23-1.993-1.194-1.066-2.001-2.387-2.236-2.789-.234-.402-.025-.619.176-.819.181-.18.402-.469.603-.704.2-.234.268-.402.402-.67.134-.268.067-.503-.033-.704-.1-.2-.905-2.18-1.24-2.985-.327-.784-.659-.677-.905-.69-.234-.01-.503-.013-.771-.013-.268 0-.704.1-1.072.503-.369.402-1.407 1.376-1.407 3.354s1.44 3.89 1.641 4.158c.2.268 2.834 4.33 6.872 6.07.96.414 1.71.661 2.295.847.964.307 1.84.263 2.533.16.772-.115 2.373-.972 2.708-1.91.335-.938.335-1.742.234-1.91-.1-.168-.369-.268-.771-.47z"/></svg>
+                WhatsApp
+            </a>
+            <a href="https://www.ifood.com.br/delivery/mairinque-sp/burguer-da-vila-vila-nova-mairinque/d9a91742-3440-4a7d-b75c-e1fadad9c0c8" target="_blank" class="ifood-btn">
+                <svg width="24" height="24" viewBox="0 0 512 512"><path fill="#fff" d="M259.8 114.9c-15.7-15.7-41.3-15.7-57 0l-5.7 5.7-43.3-43.3c-15.7-15.7-41.3-15.7-57 0-15.7 15.7-15.7 41.3 0 57l62 62-62 62c-15.7 15.7-15.7 41.3 0 57 7.8 7.8 18 11.7 28.5 11.7s20.7-3.9 28.5-11.7l43.3-43.3 5.7 5.7c15.7 15.7 41.3 15.7 57 0l96-96c15.7-15.7 15.7-41.3 0-57l-96-96zm152.3 95.7c15.7 15.7 15.7 41.3 0 57l-96 96c-15.7 15.7-41.3 15.7-57 0l-5.7-5.7 43.3 43.3c15.7 15.7 41.3 15.7 57 0 15.7-15.7 15.7-41.3 0-57l-62-62 62-62c15.7-15.7 15.7-41.3 0-57-7.8-7.8-18-11.7-28.5-11.7s-20.7 3.9-28.5 11.7l-43.3 43.3-5.7-5.7c-15.7-15.7-41.3-15.7-57 0l-96 96c-15.7 15.7-15.7 41.3 0 57l96 96c15.7 15.7 41.3 15.7 57 0l5.7-5.7-43.3-43.3c-15.7-15.7-41.3-15.7-57 0-15.7 15.7-15.7 41.3 0 57l62 62-62 62c-15.7 15.7-15.7 41.3 0 57 7.8 7.8 18 11.7 28.5 11.7s20.7-3.9 28.5-11.7l43.3-43.3 5.7 5.7c15.7 15.7 41.3 15.7 57 0l96-96z"/></svg>
+                iFood
+            </a>
+        </div>
     </div>
 </section>
 
@@ -332,8 +380,160 @@
     <p style="margin-top:.4rem">&copy; 2026 Todos os direitos reservados.</p>
 </footer>
 
+<!-- CART MODAL -->
+<div class="modal-overlay" id="cartModal">
+    <div class="cart-panel">
+        <h2>Seu Pedido <button class="close-btn" onclick="toggleCart()">&times;</button></h2>
+
+        <!-- Step Indicators -->
+        <div class="step-indicators" id="stepDots">
+            <div class="step-dot active" data-step="1"></div>
+            <div class="step-dot" data-step="2"></div>
+            <div class="step-dot" data-step="3"></div>
+        </div>
+
+        <!-- STEP 1: Cart Items -->
+        <div class="checkout-step active" id="step1">
+            <div id="cartItems"></div>
+            <div class="cart-total" id="cartTotal"></div>
+            <button class="btn btn-primary" style="width:100%;margin-top:.5rem;" onclick="goToStep(2)">Ir para Pagamento</button>
+        </div>
+
+        <!-- STEP 2: Payment Method -->
+        <div class="checkout-step" id="step2">
+            <h3 style="font-family:'Inter',sans-serif;font-size:1rem;margin-bottom:1rem;">Escolha a forma de pagamento</h3>
+            <div class="payment-options">
+                <label class="payment-option selected" onclick="selectPayment('pix', this)">
+                    <input type="radio" name="payment" value="pix" checked>
+                    <div class="radio-dot"></div>
+                    <span class="pay-icon">&#9889;</span>
+                    <div class="pay-info"><h4>PIX</h4><p>Pagamento instantâneo</p></div>
+                </label>
+                <label class="payment-option" onclick="selectPayment('cartao', this)">
+                    <input type="radio" name="payment" value="cartao">
+                    <div class="radio-dot"></div>
+                    <span class="pay-icon">&#128179;</span>
+                    <div class="pay-info"><h4>Cartão</h4><p>Crédito ou débito</p></div>
+                </label>
+                <label class="payment-option" onclick="selectPayment('dinheiro', this)">
+                    <input type="radio" name="payment" value="dinheiro">
+                    <div class="radio-dot"></div>
+                    <span class="pay-icon">&#128176;</span>
+                    <div class="pay-info"><h4>Dinheiro</h4><p>Pagamento na entrega</p></div>
+                </label>
+            </div>
+
+            <!-- PIX Details -->
+            <div id="pixDetails">
+                <div class="pay-detail-box">
+                    <div class="icon">&#9889;</div>
+                    <p>Escaneie o QR Code ou copie a chave</p>
+                    <p style="font-family:monospace;color:var(--orange);margin-top:.5rem;">burguervila@email.com</p>
+                    <button class="copy-btn" onclick="copyPixKey()">Copiar Chave</button>
+                </div>
+            </div>
+
+            <!-- Card Details -->
+            <div id="cardDetails" style="display:none;">
+                <div class="card-fields">
+                    <input type="text" id="cardNumber" placeholder="Número do cartão" maxlength="19">
+                    <input type="text" id="cardName" placeholder="Nome no cartão">
+                    <div class="row">
+                        <input type="text" id="cardExpiry" placeholder="MM/AA" maxlength="5">
+                        <input type="text" id="cardCvv" placeholder="CVV" maxlength="4">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cash Details -->
+            <div id="cashDetails" style="display:none;">
+                <div class="pay-detail-box">
+                    <div class="icon">&#128176;</div>
+                    <p>O pagamento será feito na entrega</p>
+                    <p style="margin-top:.5rem;">Levamos troco até R$ 50,00</p>
+                </div>
+                <div class="checkout-form">
+                    <input type="text" id="cashChange" placeholder="Troco para quanto? (opcional)">
+                </div>
+            </div>
+
+            <div style="display:flex;gap:.75rem;margin-top:1.5rem;">
+                <button class="btn-ghost" style="flex:1;" onclick="goToStep(1)">Voltar</button>
+                <button class="btn btn-primary" style="flex:1.5;" onclick="goToStep(3)">Continuar</button>
+            </div>
+        </div>
+
+        <!-- STEP 3: Checkout Info -->
+        <div class="checkout-step" id="step3">
+            <h3 style="font-family:'Inter',sans-serif;font-size:1rem;margin-bottom:1rem;">Dados para entrega</h3>
+            <form class="checkout-form" id="orderForm">
+                <input type="text" id="clientName" placeholder="Seu nome *" required>
+                <input type="tel" id="clientPhone" placeholder="Telefone">
+                <input type="text" id="clientAddress" placeholder="Endereço completo *" required>
+                <textarea id="clientObs" placeholder="Observações (ex: sem cebola, ponto da carne...)"></textarea>
+                <div id="summaryLine" style="background:#111;border-radius:8px;padding:.75rem 1rem;font-size:.9rem;color:var(--muted);"></div>
+                <button type="submit">Finalizar Pedido</button>
+            </form>
+            <button class="btn-ghost" style="width:100%;margin-top:.75rem;" onclick="goToStep(2)">Voltar</button>
+        </div>
+
+        <!-- PIX PAYMENT STEP -->
+        <div class="checkout-step" id="stepPix">
+            <div style="text-align:center;padding:1rem 0;">
+                <h3 style="font-family:'Inter',sans-serif;font-size:1.2rem;margin-bottom:.5rem;">Pagamento via PIX</h3>
+                <p style="color:var(--muted);font-size:.85rem;margin-bottom:1rem;">Escaneie o QR Code ou copie o código abaixo</p>
+                <p id="pixOrderId" style="color:var(--orange);font-weight:600;margin-bottom:.5rem;"></p>
+                <p id="pixTotal" style="font-size:1.3rem;font-weight:700;margin-bottom:1.5rem;"></p>
+                <div id="pixQrContainer" class="pay-detail-box"></div>
+                <div class="pay-detail-box" style="margin-top:1rem;">
+                    <p style="margin-bottom:.5rem;">PIX Copia e Cola</p>
+                    <div id="pixQrCode" style="font-family:monospace;font-size:.8rem;color:var(--muted);word-break:break-all;max-height:60px;overflow:auto;min-height:20px;"></div>
+                    <button class="copy-btn" onclick="copyPixCode()">Copiar Código</button>
+                </div>
+                <a id="pixQrLink" href="#" target="_blank" class="btn btn-primary" style="display:none;margin-top:1rem;">Abrir no App do Banco</a>
+                <p style="color:var(--muted);font-size:.75rem;margin-top:1rem;">Aguardando pagamento... Você será redirecionado quando confirmar.</p>
+                <button class="btn-ghost" style="margin-top:1rem;" onclick="closeAll()">Cancelar</button>
+            </div>
+        </div>
+
+        <!-- WAITING CARD STEP -->
+        <div class="checkout-step" id="stepWaiting">
+            <div class="result-box">
+                <div class="icon">&#128179;</div>
+                <h3>Pagamento com Cartao</h3>
+                <p id="waitingOrderId" style="color:var(--orange);font-weight:600;margin-bottom:.5rem;"></p>
+                <p>Complete o pagamento na página do Mercado Pago.</p>
+                <p style="margin-top:.5rem;">Você será redirecionado quando o pagamento for confirmado.</p>
+                <button class="btn-ghost" style="margin-top:1.5rem;" onclick="closeAll()">Fechar</button>
+            </div>
+        </div>
+
+        <!-- FAILED STEP -->
+        <div class="checkout-step" id="stepFailed">
+            <div class="result-box">
+                <div class="icon">&#10060;</div>
+                <h3>Pagamento Cancelado</h3>
+                <p style="margin-bottom:1rem;">O pagamento não foi concluído.</p>
+                <button class="btn btn-primary" onclick="closeAll()">Tentar Novamente</button>
+            </div>
+        </div>
+
+        <!-- SUCCESS STEP -->
+        <div class="checkout-step" id="stepSuccess">
+            <div class="result-box">
+                <div class="icon">&#9989;</div>
+                <h3>Pedido Confirmado!</h3>
+                <p id="successOrderId"></p>
+                <p id="successPayment"></p>
+                <p id="successTotal"></p>
+                <button class="btn btn-primary" style="margin-top:1.5rem;width:100%;" onclick="closeAll()">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    // Mobile menu
+    // ---- MOBILE MENU ----
     function toggleMenu() {
         document.getElementById('navMenu').classList.toggle('active');
         document.querySelector('.menu-toggle').classList.toggle('open');
@@ -343,11 +543,334 @@
         document.querySelector('.menu-toggle').classList.remove('open');
     }
 
-    // Fade-in on scroll
+    // ---- FADE IN ----
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // ---- LOAD MENU FROM API ----
+    async function loadMenu() {
+        try {
+            const res = await fetch('/api/cardapio');
+            const items = await res.json();
+            const hamburgueres = items.filter(i => i.categoria === 'Hamburgueres');
+            const novidades = items.filter(i => i.categoria === 'Novidades');
+            const pasteis = items.filter(i => i.categoria === 'Pasteis');
+
+            // Hamburgueres
+            const hGrid = document.getElementById('hamburgueresGrid');
+            hamburgueres.forEach((item, idx) => {
+                const div = document.createElement('div');
+                div.className = 'menu-card fade-in';
+                div.innerHTML = `
+                    <div class="num">${String(idx + 1).padStart(2, '0')}</div>
+                    <div>
+                        <h3>${item.nome}</h3>
+                        <p class="desc">${item.descricao || ''}</p>
+                        <div class="bottom">
+                            <span class="price">R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
+                            <button class="btn-add" onclick="addToCart('${item.nome.replace(/'/g, "\\'")}', ${item.preco})">+ Adicionar</button>
+                        </div>
+                    </div>`;
+                hGrid.appendChild(div);
+            });
+
+            // Novidades
+            const nGrid = document.getElementById('novidadesGrid');
+            const imgUrls = [
+                'https://images.unsplash.com/photo-1553979459-d2207cc93730?w=600&q=80',
+                'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=600&q=80',
+                'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=600&q=80'
+            ];
+            novidades.forEach((item, idx) => {
+                const div = document.createElement('div');
+                div.className = 'new-card fade-in';
+                div.innerHTML = `
+                    <img src="${item.imagem || imgUrls[idx]}" alt="${item.nome}" loading="lazy">
+                    <span class="badge-new">Novidade</span>
+                    <h3>${item.nome}</h3>
+                    <p class="desc">${item.descricao || ''}</p>
+                    <div class="bottom-row">
+                        <span class="price">R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
+                        <button class="btn-add" onclick="addToCart('${item.nome.replace(/'/g, "\\'")}', ${item.preco})">+ Adicionar</button>
+                    </div>`;
+                nGrid.appendChild(div);
+            });
+
+            // Pasteis
+            const pGrid = document.getElementById('pasteisGrid');
+            pasteis.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'pastel-item fade-in';
+                div.innerHTML = `
+                    <div class="left">
+                        <div class="dot"></div>
+                        <span>${item.nome}</span>
+                    </div>
+                    <div>
+                        <span class="price-tag">R$ 8,00</span>
+                        <button class="btn-add" onclick="addToCart('${item.nome.replace(/'/g, "\\'")}', 8)">+ Adicionar</button>
+                    </div>`;
+                pGrid.appendChild(div);
+            });
+
+            // Re-observe
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+        } catch (err) {
+            console.error('Erro ao carregar cardapio:', err);
+        }
+    }
+    loadMenu();
+
+    // ---- CART ----
+    let cart = [];
+
+    function addToCart(nome, preco) {
+        const existing = cart.find(i => i.nome === nome);
+        if (existing) { existing.quantidade++; }
+        else { cart.push({ nome, preco, quantidade: 1 }); }
+        updateCartUI();
+    }
+
+    function removeFromCart(nome) {
+        const idx = cart.findIndex(i => i.nome === nome);
+        if (idx >= 0) {
+            if (cart[idx].quantidade > 1) cart[idx].quantidade--;
+            else cart.splice(idx, 1);
+        }
+        updateCartUI();
+    }
+
+    function updateCartUI() {
+        const total = cart.reduce((s, i) => s + i.preco * i.quantidade, 0);
+        const count = cart.reduce((s, i) => s + i.quantidade, 0);
+        document.getElementById('cartCount').textContent = count;
+
+        const container = document.getElementById('cartItems');
+        if (cart.length === 0) {
+            container.innerHTML = '<p class="empty-cart">Seu carrinho está vazio.</p>';
+        } else {
+            container.innerHTML = cart.map(i => `
+                <div class="cart-item">
+                    <div>
+                        <span class="name">${i.nome}</span><br>
+                        <span class="price">R$ ${(i.preco * i.quantidade).toFixed(2).replace('.', ',')}</span>
+                    </div>
+                    <div class="qty-ctrl">
+                        <button onclick="removeFromCart('${i.nome.replace(/'/g, "\\'")}')">&minus;</button>
+                        <span>${i.quantidade}</span>
+                        <button onclick="addToCart('${i.nome.replace(/'/g, "\\'")}', ${i.preco})">+</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        document.getElementById('cartTotal').textContent = cart.length ? `Total: R$ ${total.toFixed(2).replace('.', ',')}` : '';
+    }
+    updateCartUI();
+
+    // ---- CART OPEN / CLOSE ----
+    function openCart() {
+        resetSteps();
+        document.getElementById('cartModal').classList.add('open');
+    }
+
+    function toggleCart() {
+        document.getElementById('cartModal').classList.toggle('open');
+    }
+
+    document.getElementById('cartModal').addEventListener('click', function(e) {
+        if (e.target === this) closeAll();
+    });
+
+    // ---- CHECKOUT FLOW ----
+    let selectedPayment = 'pix';
+
+    function resetSteps() {
+        selectedPayment = 'pix';
+        document.querySelectorAll('.checkout-step').forEach(s => s.classList.remove('active'));
+        document.getElementById('step1').classList.add('active');
+        document.querySelectorAll('.step-dot').forEach(dot => {
+            dot.classList.remove('active', 'done');
+            if (parseInt(dot.dataset.step) === 1) dot.classList.add('active');
+        });
+        // Reset payment selection
+        document.querySelectorAll('.payment-option').forEach((o, i) => {
+            o.classList.toggle('selected', i === 0);
+        });
+        document.getElementById('pixDetails').style.display = 'block';
+        document.getElementById('cardDetails').style.display = 'none';
+        document.getElementById('cashDetails').style.display = 'none';
+    }
+
+    function selectPayment(method, el) {
+        selectedPayment = method;
+        document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
+        el.classList.add('selected');
+        document.getElementById('pixDetails').style.display = method === 'pix' ? 'block' : 'none';
+        document.getElementById('cardDetails').style.display = method === 'cartao' ? 'block' : 'none';
+        document.getElementById('cashDetails').style.display = method === 'dinheiro' ? 'block' : 'none';
+    }
+
+    function goToStep(step) {
+        if (step === 3) {
+            const total = cart.reduce((s, i) => s + i.preco * i.quantidade, 0);
+            const count = cart.reduce((s, i) => s + i.quantidade, 0);
+            const tipo = selectedPayment === 'pix' ? 'PIX' : selectedPayment === 'cartao' ? 'Cartao' : 'Dinheiro';
+            document.getElementById('summaryLine').textContent =
+                count + ' ite' + (count > 1 ? 'ns' : 'm') + ' \u2014 ' + tipo + ' \u2014 Total: R$ ' + total.toFixed(2).replace('.', ',');
+        }
+
+        document.querySelectorAll('.checkout-step').forEach(s => s.classList.remove('active'));
+        if (step <= 3) document.getElementById('step' + step).classList.add('active');
+
+        document.querySelectorAll('.step-dot').forEach(dot => {
+            const n = parseInt(dot.dataset.step);
+            dot.classList.remove('active', 'done');
+            if (n === step) dot.classList.add('active');
+            else if (n < step) dot.classList.add('done');
+        });
+    }
+
+    function copyPixKey() {
+        navigator.clipboard.writeText('burguervila@email.com').then(() => {
+            alert('Chave PIX copiada!');
+        });
+    }
+
+    function copyPixCode() {
+        const code = document.getElementById('pixQrCode').textContent;
+        if (code) {
+            navigator.clipboard.writeText(code).then(() => {
+                alert('Código PIX copiado!');
+            });
+        }
+    }
+
+    // ---- SUBMIT ORDER ----
+    document.getElementById('orderForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        if (cart.length === 0) { alert('Adicione itens ao carrinho primeiro!'); return; }
+
+        const nome = document.getElementById('clientName').value;
+        const telefone = document.getElementById('clientPhone').value;
+        const endereco = document.getElementById('clientAddress').value;
+        const obs = document.getElementById('clientObs').value;
+
+        try {
+            const res = await fetch('/api/criar-pagamento', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    cliente_nome: nome,
+                    cliente_telefone: telefone,
+                    cliente_endereco: endereco,
+                    itens: cart,
+                    observacao: obs,
+                    metodo_pagamento: selectedPayment
+                })
+            });
+            const data = await res.json();
+
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
+
+            if (selectedPayment === 'pix') {
+                document.querySelectorAll('.checkout-step').forEach(s => s.classList.remove('active'));
+                document.getElementById('stepPix').classList.add('active');
+                document.getElementById('pixQrContainer').innerHTML = '';
+                document.getElementById('pixQrCode').textContent = '';
+                document.getElementById('pixQrLink').style.display = 'none';
+
+                if (data.qr_code) {
+                    document.getElementById('pixQrCode').textContent = data.qr_code;
+                    if (data.ticket_url) {
+                        document.getElementById('pixQrLink').href = data.ticket_url;
+                        document.getElementById('pixQrLink').style.display = 'inline-flex';
+                    }
+                }
+                if (data.qr_code_base64) {
+                    document.getElementById('pixQrContainer').innerHTML =
+                        '<img src="data:image/png;base64,' + data.qr_code_base64 + '" alt="QR Code PIX" style="max-width:200px;border-radius:8px;">';
+                }
+                if (data.fallback) {
+                    document.getElementById('pixQrContainer').innerHTML =
+                        '<a href="' + data.checkout_url + '" target="_blank" class="btn btn-primary" style="display:inline-flex;margin-top:.5rem;">Pagar com Mercado Pago</a>' +
+                        '<p style="color:var(--muted);font-size:.8rem;margin-top:.5rem;">Você será redirecionado ao Mercado Pago</p>';
+                }
+
+                document.getElementById('pixOrderId').textContent = 'Pedido #' + data.pedido_id;
+                document.getElementById('pixTotal').textContent = 'Total: R$ ' + data.total.toFixed(2).replace('.', ',');
+                startPolling(data.pedido_id);
+
+            } else if (selectedPayment === 'cartao') {
+                if (data.checkout_url) {
+                    window.open(data.checkout_url, '_blank');
+                    document.querySelectorAll('.checkout-step').forEach(s => s.classList.remove('active'));
+                    document.getElementById('stepWaiting').classList.add('active');
+                    document.getElementById('waitingOrderId').textContent = 'Pedido #' + data.pedido_id;
+                    startPolling(data.pedido_id);
+                }
+
+            } else {
+                document.querySelectorAll('.checkout-step').forEach(s => s.classList.remove('active'));
+                document.getElementById('stepSuccess').classList.add('active');
+                document.getElementById('successOrderId').textContent = 'Pedido #' + data.pedido_id;
+                document.getElementById('successPayment').textContent = 'Pagamento: Dinheiro na entrega';
+                document.getElementById('successTotal').textContent = 'Total: R$ ' + data.total.toFixed(2).replace('.', ',');
+                cart = [];
+                updateCartUI();
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Erro ao processar pagamento. Tente novamente.');
+        }
+    });
+
+    // ---- PAYMENT POLLING ----
+    let pollInterval = null;
+
+    function startPolling(pedidoId) {
+        if (pollInterval) clearInterval(pollInterval);
+
+        pollInterval = setInterval(async () => {
+            try {
+                const res = await fetch('/api/pedidos/' + pedidoId + '/status');
+                const data = await res.json();
+                if (data.status === 'pago') {
+                    clearInterval(pollInterval);
+                    pollInterval = null;
+                    document.querySelectorAll('.checkout-step').forEach(s => s.classList.remove('active'));
+                    document.getElementById('stepSuccess').classList.add('active');
+                    document.getElementById('successOrderId').textContent = 'Pedido #' + pedidoId;
+                    document.getElementById('successPayment').textContent = 'Pagamento confirmado!';
+                    document.getElementById('successTotal').textContent = 'Total: R$ ' + data.total.toFixed(2).replace('.', ',');
+                    cart = [];
+                    updateCartUI();
+                } else if (data.status === 'cancelado') {
+                    clearInterval(pollInterval);
+                    pollInterval = null;
+                    document.querySelectorAll('.checkout-step').forEach(s => s.classList.remove('active'));
+                    document.getElementById('stepFailed').classList.add('active');
+                }
+            } catch (e) { /* ignore */ }
+        }, 3000);
+    }
+
+    function stopPolling() {
+        if (pollInterval) clearInterval(pollInterval);
+        pollInterval = null;
+    }
+
+    function closeAll() {
+        stopPolling();
+        cart = [];
+        updateCartUI();
+        toggleCart();
+        document.getElementById('orderForm').reset();
+        resetSteps();
+    }
 </script>
 </body>
 </html>
