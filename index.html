@@ -3,252 +3,859 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Burguer da Vila &ndash; Hamburgueria Artesanal</title>
+    <title>Burguer da Vila — Hamburgueria Artesanal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --orange: #E8751A;
-            --orange-dark: #C75F0E;
-            --dark: #111;
-            --darker: #0a0a0a;
-            --card: #1a1a1a;
-            --text: #f0ece6;
-            --muted: #999;
+            --flame:   #E8751A;
+            --flame-d: #B85C0E;
+            --flame-l: #F59340;
+            --char:    #0E0C0A;
+            --smoke:   #1A1714;
+            --ash:     #2A2520;
+            --cream:   #F2EDE6;
+            --muted:   #8A7F75;
+            --border:  rgba(242,237,230,.07);
+            --grad: linear-gradient(135deg, #E8751A 0%, #B85C0E 100%);
         }
 
         html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--darker); }
-        h1, h2, h3 { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
+
+        body {
+            font-family: 'Crimson Pro', Georgia, serif;
+            background: var(--char);
+            color: var(--cream);
+            overflow-x: hidden;
+        }
+
+        /* ---- NOISE OVERLAY ---- */
+        body::before {
+            content: '';
+            position: fixed; inset: 0; z-index: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+            opacity: .025;
+            pointer-events: none;
+        }
+
+        /* ---- TYPOGRAPHY ---- */
+        h1, h2, h3, .nav-logo { font-family: 'Oswald', sans-serif; letter-spacing: .03em; }
 
         /* ---- NAV ---- */
         nav {
             position: fixed; top: 0; width: 100%; z-index: 100;
             display: flex; justify-content: space-between; align-items: center;
-            padding: 1rem 2rem;
-            background: rgba(10,10,10,.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,.06);
+            padding: 1.1rem 3rem;
+            background: rgba(14,12,10,.9);
+            backdrop-filter: blur(16px) saturate(1.4);
+            border-bottom: 1px solid var(--border);
+            transition: padding .3s;
         }
-        nav .logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--orange); }
-        nav .logo span { color: #fff; }
-        nav ul { list-style: none; display: flex; gap: 1.5rem; align-items: center; }
-        nav a { color: #ccc; text-decoration: none; font-size: .9rem; font-weight: 500; transition: color .2s; }
-        nav a:hover { color: var(--orange); }
-        .menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: .5rem; }
-        .menu-toggle span { display: block; width: 24px; height: 2px; background: #fff; margin: 5px 0; transition: .3s; border-radius: 2px; }
+        nav.compact { padding: .75rem 3rem; }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--cream);
+        }
+        .nav-logo em { color: var(--flame); font-style: normal; }
+
+        nav ul { list-style: none; display: flex; align-items: center; gap: 2.5rem; }
+        nav a {
+            font-family: 'DM Mono', monospace;
+            font-size: .72rem;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color .2s;
+            position: relative;
+        }
+        nav a::after {
+            content: '';
+            position: absolute; bottom: -3px; left: 0;
+            width: 0; height: 1px;
+            background: var(--flame);
+            transition: width .3s;
+        }
+        nav a:hover { color: var(--cream); }
+        nav a:hover::after { width: 100%; }
+
+        .nav-cta {
+            font-family: 'DM Mono', monospace;
+            font-size: .72rem;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            background: var(--flame);
+            color: #fff;
+            padding: .55rem 1.4rem;
+            border-radius: 3px;
+            text-decoration: none;
+            transition: background .2s, transform .2s;
+        }
+        .nav-cta:hover { background: var(--flame-d); transform: translateY(-1px); }
+
+        .menu-toggle {
+            display: none; background: none; border: none; cursor: pointer; padding: .5rem;
+        }
+        .menu-toggle span {
+            display: block; width: 22px; height: 1.5px;
+            background: var(--cream); margin: 5px 0;
+            transition: .3s; border-radius: 1px;
+        }
 
         /* ---- HERO ---- */
         .hero {
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; min-height: 100vh; padding: 6rem 2rem 4rem;
-            background:
-                radial-gradient(ellipse at 60% 50%, rgba(232,117,26,.15), transparent 60%),
-                linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.75)),
-                url('https://images.unsplash.com/photo-1568901346375-23c9450c58aa?w=1400&q=80') center/cover no-repeat;
+            position: relative;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
         }
-        .hero h1 { font-size: clamp(3rem, 8vw, 5.5rem); line-height: 1; margin-bottom: .5rem; }
-        .hero h1 span { color: var(--orange); }
-        .hero .tagline { font-size: clamp(1rem, 2.5vw, 1.3rem); color: #ccc; margin-bottom: 2rem; max-width: 520px; }
+
+        .hero-bg {
+            position: absolute; inset: 0;
+            background:
+                url('https://images.unsplash.com/photo-1568901346375-23c9450c58aa?w=1600&q=85')
+                center/cover no-repeat;
+        }
+        .hero-bg::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(14,12,10,.55) 0%,
+                rgba(14,12,10,.35) 40%,
+                rgba(14,12,10,.9) 100%
+            );
+        }
+
+        /* Diagonal accent bar */
+        .hero-accent {
+            position: absolute;
+            left: -5%;
+            top: 50%;
+            transform: translateY(-50%) rotate(-8deg);
+            width: 4px;
+            height: 60vh;
+            background: var(--grad);
+            opacity: .6;
+        }
+
+        .hero-content {
+            position: relative; z-index: 1;
+            text-align: center;
+            padding: 8rem 2rem 5rem;
+            max-width: 860px;
+        }
+
+        .hero-eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: .7rem;
+            letter-spacing: .3em;
+            text-transform: uppercase;
+            color: var(--flame);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp .8s .2s forwards;
+        }
+
+        .hero h1 {
+            font-size: clamp(3.5rem, 9vw, 7rem);
+            font-weight: 700;
+            line-height: .95;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp .8s .4s forwards;
+        }
+
+        .hero h1 .line-accent { color: var(--flame); display: block; }
+
+        .hero-sub {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: rgba(242,237,230,.65);
+            font-style: italic;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeUp .8s .6s forwards;
+        }
+
+        .hero-btns {
+            display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp .8s .8s forwards;
+        }
 
         /* ---- BUTTONS ---- */
         .btn {
-            display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
-            padding: .9rem 2rem; border-radius: 50px; text-decoration: none;
-            font-weight: 700; font-size: 1rem; transition: transform .2s, box-shadow .2s, background .2s;
-            border: none; cursor: pointer; font-family: inherit;
-}
-        .btn-whatsapp { background: #25D366; color: #fff; }
-        .btn-whatsapp:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 35px rgba(37,211,102,.35); }
-        .whatsapp-big:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 35px rgba(37,211,102,.35); }
-        .whatsapp-big svg { width: 28px; height: 28px; fill: #fff; }
-        .ifood-btn {
-            display: inline-flex; align-items: center; gap: .75rem;
-            background: #ff0013; color: #fff; padding: 1rem 2.5rem;
-            border-radius: 60px; font-size: 1.2rem; font-weight: 700;
-            text-decoration: none; transition: transform .2s, box-shadow .2s;
+            display: inline-flex; align-items: center; gap: .6rem;
+            font-family: 'DM Mono', monospace;
+            font-size: .75rem; letter-spacing: .12em; text-transform: uppercase;
+            padding: .9rem 2rem; text-decoration: none;
+            border: none; cursor: pointer; font-family: 'DM Mono', monospace;
+            transition: transform .2s, box-shadow .2s;
         }
-        .ifood-btn:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 35px rgba(255,0,19,.35); }
-        .ifood-btn svg { width: 28px; height: 28px; fill: #fff; }
+        .btn-primary {
+            background: var(--flame); color: #fff; border-radius: 3px;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(232,117,26,.35);
+            background: var(--flame-d);
+        }
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid rgba(242,237,230,.3);
+            color: var(--cream); border-radius: 3px;
+        }
+        .btn-ghost:hover {
+            border-color: var(--cream);
+            transform: translateY(-2px);
+        }
+
+        /* ---- SECTION BASE ---- */
+        section { position: relative; z-index: 1; padding: 6rem 3rem; }
+
+        .section-label {
+            font-family: 'DM Mono', monospace;
+            font-size: .65rem;
+            letter-spacing: .3em;
+            text-transform: uppercase;
+            color: var(--flame);
+            margin-bottom: .75rem;
+        }
+
+        .section-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            line-height: 1;
+            margin-bottom: .5rem;
+        }
+
+        .section-sub {
+            font-family: 'Crimson Pro', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--muted);
+            margin-bottom: 3.5rem;
+        }
+
+        /* ---- DIVIDER ---- */
+        .divider {
+            width: 40px; height: 2px;
+            background: var(--flame);
+            margin: 1rem 0 2rem;
+        }
+
+        /* ---- CARDAPIO ---- */
+        #cardapio { background: var(--smoke); }
+
+        .cardapio-layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 2.2fr;
+            gap: 5rem;
+            align-items: start;
+        }
+
+        .cardapio-sticky { position: sticky; top: 6rem; }
+
+        .menu-grid {
+            display: flex; flex-direction: column; gap: 0;
+        }
+
+        .menu-item {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 1.5rem;
+            align-items: start;
+            padding: 1.75rem 0;
+            border-bottom: 1px solid var(--border);
+            transition: background .2s;
+            cursor: default;
+        }
+        .menu-item:first-child { border-top: 1px solid var(--border); }
+
+        .item-num {
+            font-family: 'DM Mono', monospace;
+            font-size: .65rem;
+            color: var(--flame);
+            letter-spacing: .1em;
+            padding-top: .2rem;
+            min-width: 28px;
+        }
+
+        .item-body h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: .3rem;
+            transition: color .2s;
+        }
+        .menu-item:hover .item-body h3 { color: var(--flame); }
+
+        .item-body p {
+            font-size: .95rem;
+            color: var(--muted);
+            line-height: 1.55;
+        }
+
+        .item-price {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--flame-l);
+            white-space: nowrap;
+            padding-top: .1rem;
+        }
+
+        /* ---- NOVIDADES ---- */
+        #novidades { background: var(--char); }
+
+        .nov-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5px;
+        }
+
+        .nov-card {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 3/4;
+            cursor: pointer;
+        }
+        .nov-card:first-child {
+            grid-row: span 2;
+            aspect-ratio: auto;
+        }
+
+        .nov-card img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform .6s ease, filter .4s;
+            filter: brightness(.75) saturate(.9);
+        }
+        .nov-card:hover img {
+            transform: scale(1.06);
+            filter: brightness(.55) saturate(1.1);
+        }
+
+        .nov-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(14,12,10,.95) 0%, transparent 60%);
+            display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 2rem;
+        }
+
+        .nov-badge {
+            font-family: 'DM Mono', monospace;
+            font-size: .6rem; letter-spacing: .2em; text-transform: uppercase;
+            background: var(--flame);
+            color: #fff;
+            padding: .25rem .7rem;
+            border-radius: 2px;
+            display: inline-block;
+            margin-bottom: .75rem;
+            width: fit-content;
+        }
+
+        .nov-card h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: .35rem;
+        }
+        .nov-card:first-child h3 { font-size: 2rem; }
+
+        .nov-card p {
+            font-style: italic;
+            font-size: .9rem;
+            color: rgba(242,237,230,.65);
+            margin-bottom: .75rem;
+            line-height: 1.5;
+        }
+
+        .nov-price {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.3rem;
+            color: var(--flame-l);
+        }
+
+        /* ---- PASTEIS ---- */
+        #pasteis { background: var(--smoke); }
+
+        .pasteis-layout {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: start;
+        }
+
+        .pasteis-visual {
+            position: sticky;
+            top: 6rem;
+            text-align: center;
+        }
+
+        .pasteis-price-badge {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 160px; height: 160px;
+            border-radius: 50%;
+            border: 2px solid var(--flame);
+            margin-bottom: 1.5rem;
+        }
+        .pasteis-price-badge .big {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--flame);
+            line-height: 1;
+        }
+        .pasteis-price-badge .label {
+            font-family: 'DM Mono', monospace;
+            font-size: .6rem;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .pasteis-list {
+            list-style: none;
+            border-top: 1px solid var(--border);
+        }
+
+        .pasteis-list li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 1.05rem;
+            transition: color .2s;
+        }
+        .pasteis-list li:hover { color: var(--flame); }
+        .pasteis-list li::before {
+            content: '';
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: var(--flame);
+            flex-shrink: 0;
+        }
+
+        /* ---- CONTATO ---- */
+        #contato { background: var(--char); }
+
+        .contato-layout {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .contato-info h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            text-transform: uppercase;
+            line-height: .95;
+            margin-bottom: 1.5rem;
+        }
+        .contato-info h2 em { color: var(--flame); font-style: normal; display: block; }
+
+        .contato-info p {
+            font-size: 1.1rem;
+            color: var(--muted);
+            font-style: italic;
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+        }
+
+        .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            padding: 1.25rem 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            text-decoration: none;
+            color: var(--cream);
+            transition: border-color .2s, background .2s, transform .2s;
+        }
+        .contact-link:hover {
+            transform: translateX(6px);
+        }
+        .contact-link.whatsapp:hover {
+            border-color: #25D366;
+            background: rgba(37,211,102,.06);
+        }
+        .contact-link.ifood:hover {
+            border-color: #FF0013;
+            background: rgba(255,0,19,.06);
+        }
+
+        .contact-icon {
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.25rem;
+        }
+        .whatsapp .contact-icon { background: rgba(37,211,102,.15); }
+        .ifood .contact-icon { background: rgba(255,0,19,.15); }
+
+        .contact-link-text strong {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            display: block;
+        }
+        .contact-link-text span {
+            font-size: .85rem;
+            color: var(--muted);
+            font-family: 'DM Mono', monospace;
+        }
+
 
         /* ---- FOOTER ---- */
-        footer { text-align: center; padding: 2rem; background: #050505; color: #555; font-size: .85rem; border-top: 1px solid rgba(255,255,255,.04); }
-        footer span { color: var(--orange); font-family: 'Bebas Neue', sans-serif; font-size: 1rem; }
+        footer {
+            position: relative; z-index: 1;
+            background: #080604;
+            padding: 2.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+        }
+
+        footer .foot-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--cream);
+        }
+        footer .foot-logo em { color: var(--flame); font-style: normal; }
+
+        footer p {
+            font-family: 'DM Mono', monospace;
+            font-size: .65rem;
+            letter-spacing: .1em;
+            color: var(--muted);
+        }
+
+        /* ---- SCROLLBAR ---- */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--char); }
+        ::-webkit-scrollbar-thumb { background: var(--flame); }
 
         /* ---- ANIMATIONS ---- */
-        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity .6s ease, transform .6s ease; }
-        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            opacity: 0; transform: translateY(28px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+        .reveal.visible { opacity: 1; transform: none; }
 
         /* ---- RESPONSIVE ---- */
+        @media (max-width: 1024px) {
+            .cardapio-layout { grid-template-columns: 1fr; gap: 2rem; }
+            .cardapio-sticky { position: static; }
+            .nov-grid { grid-template-columns: 1fr 1fr; }
+            .nov-card:first-child { grid-row: auto; aspect-ratio: 3/4; }
+            .pasteis-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+            .pasteis-visual { position: static; text-align: left; display: flex; align-items: center; gap: 2rem; }
+            .contato-layout { grid-template-columns: 1fr; gap: 3rem; }
+        }
+
         @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            nav.compact { padding: .75rem 1.5rem; }
+            section { padding: 4.5rem 1.5rem; }
+
             nav ul {
-                position: fixed; top: 0; right: -100%; width: 70%; height: 100vh;
+                position: fixed; top: 0; right: -100%; width: 75%; height: 100vh;
                 flex-direction: column; justify-content: center; align-items: center;
-                background: var(--darker); transition: right .35s ease; gap: 2rem;
+                background: var(--smoke); transition: right .35s ease;
+                gap: 2.5rem; border-left: 1px solid var(--border);
             }
-            nav ul.active { right: 0; }
-            nav a { font-size: 1.1rem; }
+            nav ul.open { right: 0; }
+            nav a { font-size: .85rem; }
             .menu-toggle { display: block; z-index: 110; }
             .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
             .menu-toggle.open span:nth-child(2) { opacity: 0; }
             .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-            .menu-grid, .new-grid { grid-template-columns: 1fr; }
-            .pasteis-grid { grid-template-columns: 1fr 1fr; }
+
+            .nov-grid { grid-template-columns: 1fr; }
+            .nov-card { aspect-ratio: 4/3; }
+            .nov-card:first-child { aspect-ratio: 4/3; }
+
+            footer { flex-direction: column; gap: 1rem; text-align: center; }
         }
-        @media (max-width: 480px) { .pasteis-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav>
-    <div class="logo">BURGUER <span>DA VILA</span></div>
+<nav id="mainNav">
+    <div class="nav-logo">Burguer <em>da Vila</em></div>
     <ul id="navMenu">
-        <li><a href="#inicio" onclick="closeMenu()">Início</a></li>
         <li><a href="#cardapio" onclick="closeMenu()">Cardápio</a></li>
         <li><a href="#novidades" onclick="closeMenu()">Novidades</a></li>
+        <li><a href="#pasteis" onclick="closeMenu()">Pastéis</a></li>
         <li><a href="#contato" onclick="closeMenu()">Contato</a></li>
+        <li><a href="https://wa.me/5511975638583" target="_blank" class="nav-cta">Pedir Agora</a></li>
     </ul>
-    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">
+    <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()" aria-label="Menu">
         <span></span><span></span><span></span>
     </button>
 </nav>
 
 <!-- HERO -->
 <section class="hero" id="inicio">
-    <h1>BURGUER <span>DA VILA</span></h1>
-    <p class="tagline">O melhor hambúrguer artesanal da região!</p>
-    <a href="#cardapio" class="btn btn-primary">Ver Cardápio</a>
+    <div class="hero-bg"></div>
+    <div class="hero-accent"></div>
+    <div class="hero-content">
+        <p class="hero-eyebrow">Hamburgueria Artesanal · Mairinque, SP</p>
+        <h1>
+            Burguer
+            <span class="line-accent">da Vila</span>
+        </h1>
+        <p class="hero-sub">O melhor hambúrguer artesanal da região, feito com amor e na hora.</p>
+        <div class="hero-btns">
+            <a href="#cardapio" class="btn btn-primary">Ver Cardápio</a>
+            <a href="https://wa.me/5511975638583" target="_blank" class="btn btn-ghost">Pedir pelo WhatsApp</a>
+        </div>
+    </div>
 </section>
 
 <!-- CARDAPIO -->
 <section id="cardapio">
-    <h2 class="section-title">CARDA<span>PIO</span></h2>
-    <p class="section-sub">Hambúrgueres artesanais feitos na hora</p>
-    <div class="menu-grid" id="hamburgueresGrid"></div>
+    <div class="cardapio-layout">
+        <div class="cardapio-sticky reveal">
+            <p class="section-label">Nosso Cardápio</p>
+            <h2 class="section-title">Hambúr<br>gueres</h2>
+            <div class="divider"></div>
+            <p class="section-sub">Artesanais, feitos na hora, com os melhores ingredientes.</p>
+            <a href="https://wa.me/5511975638583" target="_blank" class="btn btn-primary">Fazer Pedido</a>
+        </div>
+        <div class="menu-grid reveal" id="hamburgueresGrid">
+            <!-- carregado via JS -->
+        </div>
+    </div>
 </section>
 
 <!-- NOVIDADES -->
 <section id="novidades">
-    <h2 class="section-title">NOVI<span>DADES</span></h2>
-    <p class="section-sub">Acabaram de chegar no nosso cardápio</p>
-    <div class="new-grid" id="novidadesGrid"></div>
+    <div style="max-width:1200px;margin:0 auto;">
+        <div class="reveal" style="margin-bottom:3rem;">
+            <p class="section-label">Recém Chegou</p>
+            <h2 class="section-title">Novidades</h2>
+            <div class="divider"></div>
+        </div>
+        <div class="nov-grid reveal" id="novidadesGrid">
+            <!-- carregado via JS -->
+        </div>
+    </div>
 </section>
 
 <!-- PASTEIS -->
 <section id="pasteis">
-    <h2 class="section-title">PASTEIS</h2>
-    <div class="pasteis-wrapper">
-        <p class="pasteis-header">Todos os pastéis por apenas R$ 8,00 cada</p>
-        <div class="pasteis-grid" id="pasteisGrid"></div>
+    <div class="pasteis-layout">
+        <div class="pasteis-visual reveal">
+            <div class="pasteis-price-badge">
+                <span class="big">R$8</span>
+                <span class="label">cada pastel</span>
+            </div>
+            <div>
+                <p class="section-label">Aperitivos</p>
+                <h2 class="section-title">Pastéis</h2>
+                <div class="divider"></div>
+                <p class="section-sub">Todos os pastéis pelo mesmo preço. Perfeito para acompanhar.</p>
+            </div>
+        </div>
+        <div class="reveal">
+            <ul class="pasteis-list" id="pasteisGrid">
+                <!-- carregado via JS -->
+            </ul>
+        </div>
     </div>
 </section>
 
 <!-- CONTATO -->
 <section id="contato">
-    <div class="contact-wrapper">
-        <h2>PEÇA JÁ <span>O SEU!</span></h2>
-        <p class="phone">WhatsApp: +55 11 97563-8583</p>
-        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-            <a href="https://wa.me/5511975638583" target="_blank" class="whatsapp-big">
-                <svg viewBox="0 0 32 32"><path d="M16.004 0C7.165 0 .003 7.163.003 16c0 2.823.737 5.58 2.137 8.007L.014 32l8.186-2.1a15.93 15.93 0 0 0 7.804 1.986h.006C24.84 31.886 32 24.724 32 15.994 32 7.163 24.84 0 16.004 0zm0 29.3a13.35 13.35 0 0 1-6.986-1.97l-.5-.297-5.19 1.324 1.383-5.063-.327-.52A13.28 13.28 0 0 1 2.59 16c0-7.403 6.012-13.414 13.42-13.414C23.417 2.586 29.424 8.6 29.424 16c0 7.403-6.012 13.3-13.42 13.3zm7.35-10.013c-.402-.2-2.373-1.17-2.742-1.304-.369-.134-.637-.2-.905.2s-1.039 1.304-1.274 1.573c-.234.268-.469.301-.871.1-.402-.2-1.695-.625-3.23-1.993-1.194-1.066-2.001-2.387-2.236-2.789-.234-.402-.025-.619.176-.819.181-.18.402-.469.603-.704.2-.234.268-.402.402-.67.134-.268.067-.503-.033-.704-.1-.2-.905-2.18-1.24-2.985-.327-.784-.659-.677-.905-.69-.234-.01-.503-.013-.771-.013-.268 0-.704.1-1.072.503-.369.402-1.407 1.376-1.407 3.354s1.44 3.89 1.641 4.158c.2.268 2.834 4.33 6.872 6.07.96.414 1.71.661 2.295.847.964.307 1.84.263 2.533.16.772-.115 2.373-.972 2.708-1.91.335-.938.335-1.742.234-1.91-.1-.168-.369-.268-.771-.47z"/></svg>
-                WhatsApp
-            </a>
-            <a href="https://www.ifood.com.br/delivery/mairinque-sp/burguer-da-vila-vila-nova-mairinque/d9a91742-3440-4a7d-b75c-e1fadad9c0c8" target="_blank" class="ifood-btn">
-                <svg width="24" height="24" viewBox="0 0 512 512"><path fill="#fff" d="M259.8 114.9c-15.7-15.7-41.3-15.7-57 0l-5.7 5.7-43.3-43.3c-15.7-15.7-41.3-15.7-57 0-15.7 15.7-15.7 41.3 0 57l62 62-62 62c-15.7 15.7-15.7 41.3 0 57 7.8 7.8 18 11.7 28.5 11.7s20.7-3.9 28.5-11.7l43.3-43.3 5.7 5.7c15.7 15.7 41.3 15.7 57 0l96-96c15.7-15.7 15.7-41.3 0-57l-96-96zm152.3 95.7c15.7 15.7 15.7 41.3 0 57l-96 96c-15.7 15.7-41.3 15.7-57 0l-5.7-5.7 43.3 43.3c15.7 15.7 41.3 15.7 57 0 15.7-15.7 15.7-41.3 0-57l-62-62 62-62c15.7-15.7 15.7-41.3 0-57-7.8-7.8-18-11.7-28.5-11.7s-20.7 3.9-28.5 11.7l-43.3 43.3-5.7-5.7c-15.7-15.7-41.3-15.7-57 0l-96 96c-15.7 15.7-15.7 41.3 0 57l96 96c15.7 15.7 41.3 15.7 57 0l5.7-5.7-43.3-43.3c-15.7-15.7-41.3-15.7-57 0-15.7 15.7-15.7 41.3 0 57l62 62-62 62c-15.7 15.7-15.7 41.3 0 57 7.8 7.8 18 11.7 28.5 11.7s20.7-3.9 28.5-11.7l43.3-43.3 5.7 5.7c15.7 15.7 41.3 15.7 57 0l96-96z"/></svg>
-                iFood
-            </a>
+    <div class="contato-layout">
+        <div class="reveal">
+            <p class="section-label">Fale com a gente</p>
+            <h2 class="contato-info">
+                <div class="section-title" style="line-height:.95">Peça <em style="color:var(--flame);font-style:normal;display:block;">o seu!</em></div>
+            </h2>
+            <div class="divider"></div>
+            <p style="font-style:italic;color:var(--muted);font-size:1.1rem;line-height:1.7;margin-bottom:2.5rem;">
+                Atendemos pelo WhatsApp e pelo iFood.<br>
+                <span style="font-family:'DM Mono',monospace;font-size:.8rem;letter-spacing:.05em;">+55 11 97563-8583</span>
+            </p>
+            <div class="contact-links">
+                <a href="https://wa.me/5511975638583" target="_blank" class="contact-link whatsapp">
+                    <div class="contact-icon">
+                        <svg width="22" height="22" viewBox="0 0 32 32" fill="#25D366"><path d="M16.004 0C7.165 0 .003 7.163.003 16c0 2.823.737 5.58 2.137 8.007L.014 32l8.186-2.1a15.93 15.93 0 0 0 7.804 1.986h.006C24.84 31.886 32 24.724 32 15.994 32 7.163 24.84 0 16.004 0zm0 29.3a13.35 13.35 0 0 1-6.986-1.97l-.5-.297-5.19 1.324 1.383-5.063-.327-.52A13.28 13.28 0 0 1 2.59 16c0-7.403 6.012-13.414 13.42-13.414C23.417 2.586 29.424 8.6 29.424 16c0 7.403-6.012 13.3-13.42 13.3zm7.35-10.013c-.402-.2-2.373-1.17-2.742-1.304-.369-.134-.637-.2-.905.2s-1.039 1.304-1.274 1.573c-.234.268-.469.301-.871.1-.402-.2-1.695-.625-3.23-1.993-1.194-1.066-2.001-2.387-2.236-2.789-.234-.402-.025-.619.176-.819.181-.18.402-.469.603-.704.2-.234.268-.402.402-.67.134-.268.067-.503-.033-.704-.1-.2-.905-2.18-1.24-2.985-.327-.784-.659-.677-.905-.69-.234-.01-.503-.013-.771-.013-.268 0-.704.1-1.072.503-.369.402-1.407 1.376-1.407 3.354s1.44 3.89 1.641 4.158c.2.268 2.834 4.33 6.872 6.07.96.414 1.71.661 2.295.847.964.307 1.84.263 2.533.16.772-.115 2.373-.972 2.708-1.91.335-.938.335-1.742.234-1.91-.1-.168-.369-.268-.771-.47z"/></svg>
+                    </div>
+                    <div class="contact-link-text">
+                        <strong>WhatsApp</strong>
+                        <span>Pedido direto, rápido e fácil</span>
+                    </div>
+                    <span style="margin-left:auto;font-size:1.1rem;opacity:.4">→</span>
+                </a>
+                <a href="https://www.ifood.com.br/delivery/mairinque-sp/burguer-da-vila-vila-nova-mairinque/d9a91742-3440-4a7d-b75c-e1fadad9c0c8" target="_blank" class="contact-link ifood">
+                    <div class="contact-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#FF0013"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    </div>
+                    <div class="contact-link-text">
+                        <strong>iFood</strong>
+                        <span>Entrega em domicílio</span>
+                    </div>
+                    <span style="margin-left:auto;font-size:1.1rem;opacity:.4">→</span>
+                </a>
+            </div>
         </div>
+        
     </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-    <p><span>BURGUER DA VILA</span> &mdash; Hamburgueria Artesanal</p>
-    <p style="margin-top:.4rem">&copy; 2026 Todos os direitos reservados.</p>
+    <div class="foot-logo">Burguer <em>da Vila</em></div>
+    <p>&copy; 2026 · Hamburgueria Artesanal</p>
+    <p>Feito com 🔥 em Mairinque, SP</p>
 </footer>
 
 <script>
+    // ---- NAV COMPACT ON SCROLL ----
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('compact', window.scrollY > 60);
+    }, { passive: true });
+
     // ---- MOBILE MENU ----
     function toggleMenu() {
-        document.getElementById('navMenu').classList.toggle('active');
-        document.querySelector('.menu-toggle').classList.toggle('open');
+        document.getElementById('navMenu').classList.toggle('open');
+        document.getElementById('menuToggle').classList.toggle('open');
     }
     function closeMenu() {
-        document.getElementById('navMenu').classList.remove('active');
-        document.querySelector('.menu-toggle').classList.remove('open');
+        document.getElementById('navMenu').classList.remove('open');
+        document.getElementById('menuToggle').classList.remove('open');
     }
 
-    // ---- FADE IN ----
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    // ---- REVEAL ON SCROLL ----
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach((e, i) => {
+            if (e.isIntersecting) {
+                e.target.style.transitionDelay = (e.target.dataset.delay || 0) + 'ms';
+                e.target.classList.add('visible');
+                io.unobserve(e.target);
+            }
+        });
     }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach((el, i) => io.observe(el));
 
     // ---- LOAD MENU FROM API ----
     async function loadMenu() {
         try {
             const res = await fetch('/api/cardapio');
             const items = await res.json();
-            const hamburgueres = items.filter(i => i.categoria === 'Hamburgueres');
-            const novidades = items.filter(i => i.categoria === 'Novidades');
-            const pasteis = items.filter(i => i.categoria === 'Pasteis');
 
-            // Hamburgueres
-            const hGrid = document.getElementById('hamburgueresGrid');
-            hamburgueres.forEach((item, idx) => {
-                const div = document.createElement('div');
-                div.className = 'menu-card fade-in';
-                div.innerHTML = `
-                    <div class="num">${String(idx + 1).padStart(2, '0')}</div>
-                    <div>
-                        <h3>${item.nome}</h3>
-                        <p class="desc">${item.descricao || ''}</p>
-                        <span class="price">R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
-                    </div>`;
-                hGrid.appendChild(div);
-            });
+            renderHamburgueres(items.filter(i => i.categoria === 'Hamburgueres'));
+            renderNovidades(items.filter(i => i.categoria === 'Novidades'));
+            renderPasteis(items.filter(i => i.categoria === 'Pasteis'));
 
-            // Novidades
-            const nGrid = document.getElementById('novidadesGrid');
-            const imgUrls = [
-                'https://images.unsplash.com/photo-1553979459-d2207cc93730?w=600&q=80',
-                'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=600&q=80',
-                'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=600&q=80'
-            ];
-            novidades.forEach((item, idx) => {
-                const div = document.createElement('div');
-                div.className = 'new-card fade-in';
-                div.innerHTML = `
-                    <img src="${item.imagem || imgUrls[idx]}" alt="${item.nome}" loading="lazy">
-                    <span class="badge-new">Novidade</span>
-                    <h3>${item.nome}</h3>
-                    <p class="desc">${item.descricao || ''}</p>
-                    <span class="price">R$ ${item.preco.toFixed(2).replace('.', ',')}</span>`;
-                nGrid.appendChild(div);
-            });
-
-            // Pasteis
-            const pGrid = document.getElementById('pasteisGrid');
-            pasteis.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'pastel-item fade-in';
-                div.innerHTML = `
-                    <div class="left">
-                        <div class="dot"></div>
-                        <span>${item.nome}</span>
-                    </div>
-                    <span class="price-tag">R$ 8,00</span>`;
-                pGrid.appendChild(div);
-            });
-
-            // Re-observe
-            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+            document.querySelectorAll('.reveal').forEach(el => io.observe(el));
         } catch (err) {
-            console.error('Erro ao carregar cardapio:', err);
+            console.error('Erro ao carregar cardápio:', err);
+            // Fallback sample data
+            renderHamburgueres([
+                { nome: 'Classic Burguer', descricao: 'Blend artesanal, queijo cheddar, alface, tomate e maionese da casa', preco: 28 },
+                { nome: 'Double Smash', descricao: 'Dois blends smash, queijo americano duplo, pickles e molho especial', preco: 35 },
+                { nome: 'Crispy Chicken', descricao: 'Frango crocante frito, coleslaw, jalapeño e molho honey mustard', preco: 30 },
+                { nome: 'BBQ Bacon', descricao: 'Blend artesanal, bacon crocante, cebola caramelizada e molho barbecue defumado', preco: 33 },
+            ]);
+            renderNovidades([
+                { nome: 'Truffle Burguer', descricao: 'Blend premium com azeite de trufas, rúcula e parmesão laminado', preco: 42 },
+                { nome: 'Veggie Stack', descricao: 'Blend de grão-de-bico, queijo coalho grelhado e pesto de manjericão', preco: 29 },
+                { nome: 'Fire Edition', descricao: 'Blend apimentado, pimenta calabresa, jalapeño e cream cheese defumado', preco: 36 },
+            ]);
+            renderPasteis([
+                { nome: 'Queijo' }, { nome: 'Carne' }, { nome: 'Frango' },
+                { nome: 'Pizza' }, { nome: 'Calabresa' }, { nome: 'Camarão' },
+                { nome: 'Banana c/ Nutella' }, { nome: 'Chocolate' },
+            ]);
         }
-}
+    }
+
+    const fallbackImgs = [
+        'https://images.unsplash.com/photo-1553979459-d2207cc93730?w=800&q=80',
+        'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=800&q=80',
+        'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=800&q=80'
+    ];
+
+    function renderHamburgueres(items) {
+        const grid = document.getElementById('hamburgueresGrid');
+        grid.innerHTML = items.map((item, idx) => `
+            <div class="menu-item reveal" data-delay="${idx * 60}">
+                <span class="item-num">${String(idx + 1).padStart(2, '0')}</span>
+                <div class="item-body">
+                    <h3>${item.nome}</h3>
+                    <p>${item.descricao || ''}</p>
+                </div>
+                <span class="item-price">R$&nbsp;${item.preco.toFixed(2).replace('.', ',')}</span>
+            </div>
+        `).join('');
+        grid.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    }
+
+    function renderNovidades(items) {
+        const grid = document.getElementById('novidadesGrid');
+        grid.innerHTML = items.map((item, idx) => `
+            <div class="nov-card">
+                <img src="${item.imagem || fallbackImgs[idx % fallbackImgs.length]}" alt="${item.nome}" loading="lazy">
+                <div class="nov-overlay">
+                    <span class="nov-badge">Novidade</span>
+                    <h3>${item.nome}</h3>
+                    <p>${item.descricao || ''}</p>
+                    <span class="nov-price">R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function renderPasteis(items) {
+        const list = document.getElementById('pasteisGrid');
+        list.innerHTML = items.map(item => `
+            <li>${item.nome}</li>
+        `).join('');
+    }
+
     loadMenu();
 </script>
 </body>
